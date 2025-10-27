@@ -354,7 +354,7 @@
         </div>
         
         <div class="footer">
-            <p>&copy; USDT Converter. </p>
+            <p>&copy; 2023 USDT Converter. All rights reserved.</p>
         </div>
     </div>
 
