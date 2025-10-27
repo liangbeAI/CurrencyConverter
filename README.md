@@ -17,98 +17,70 @@
             color: #333;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
-        }
-        
-        header {
-            background-color: rgba(44, 62, 80, 0.95);
-            color: white;
-            padding: 1rem 0;
-            box-shadow: 0 2px 15px rgba(0,0,0,0.2);
-            backdrop-filter: blur(10px);
+            padding: 20px;
         }
         
         .container {
-            width: 90%;
-            max-width: 1200px;
+            max-width: 900px;
             margin: 0 auto;
-        }
-        
-        nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .logo {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: #3498db;
-        }
-        
-        .nav-links {
-            display: flex;
-            list-style: none;
-        }
-        
-        .nav-links li {
-            margin-left: 1.5rem;
-        }
-        
-        .nav-links a {
-            color: white;
-            text-decoration: none;
-            transition: color 0.3s;
-            padding: 5px 10px;
-            border-radius: 4px;
-        }
-        
-        .nav-links a:hover {
-            color: #3498db;
-            background: rgba(255,255,255,0.1);
-        }
-        
-        main {
-            padding: 2rem 0;
-        }
-        
-        .hero {
-            background: rgba(255, 255, 255, 0.1);
-            color: white;
-            padding: 3rem 0;
-            text-align: center;
+            background: rgba(255, 255, 255, 0.95);
             border-radius: 15px;
-            margin-bottom: 2rem;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255,255,255,0.2);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            overflow: hidden;
         }
         
-        .hero h1 {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        .header {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: white;
+            padding: 2rem;
+            text-align: center;
         }
         
-        .hero p {
-            font-size: 1.2rem;
-            max-width: 600px;
-            margin: 0 auto;
+        .header h1 {
+            font-size: 2.2rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .header p {
+            font-size: 1.1rem;
             opacity: 0.9;
         }
         
-        .content-section {
-            background: rgba(255, 255, 255, 0.95);
+        .content {
             padding: 2rem;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            margin-bottom: 2rem;
-            backdrop-filter: blur(10px);
         }
         
-        .content-section h2 {
+        .section-title {
             color: #2c3e50;
             margin-bottom: 1rem;
             padding-bottom: 0.5rem;
             border-bottom: 2px solid #3498db;
+        }
+        
+        .time-display {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding: 15px;
+            background: linear-gradient(135deg, #e8f4fd, #d4e6f1);
+            border-radius: 10px;
+            border-left: 4px solid #3498db;
+        }
+        
+        .time-label {
+            font-weight: bold;
+            color: #2c3e50;
+        }
+        
+        .utc-time {
+            font-family: 'Courier New', monospace;
+            font-weight: bold;
+            color: #e74c3c;
+            background-color: #fff;
+            padding: 8px 15px;
+            border-radius: 8px;
+            border: 1px solid #3498db;
         }
         
         .usdt-input-section {
@@ -117,7 +89,6 @@
             border-radius: 10px;
             margin-bottom: 1.5rem;
             border-left: 4px solid #3498db;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
         }
         
         .usdt-input-container {
@@ -139,7 +110,6 @@
             border: 2px solid #3498db;
             border-radius: 8px;
             font-size: 1.1rem;
-            transition: all 0.3s ease;
             background-color: #f0f8ff;
             box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
         }
@@ -148,13 +118,12 @@
             outline: none;
             border-color: #2980b9;
             box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.3);
-            transform: scale(1.02);
         }
         
         .currency-table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 1.5rem;
+            margin: 1.5rem 0;
             box-shadow: 0 5px 15px rgba(0,0,0,0.1);
             border-radius: 10px;
             overflow: hidden;
@@ -179,115 +148,95 @@
         
         .currency-table tr:hover {
             background-color: #e3f2fd;
-            transform: translateY(-2px);
+            transform: translateY(-1px);
             transition: all 0.3s ease;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
         }
         
-        .currency-table .currency-code {
-            font-weight: bold;
-            color: #2c3e50;
-            width: 30%;
-        }
-        
-        .currency-table .currency-amount {
-            text-align: right;
-            font-family: 'Courier New', monospace;
-            width: 35%;
-            font-weight: bold;
-            color: #2c3e50;
-        }
-        
-        .currency-table .currency-symbol {
-            text-align: left;
-            width: 35%;
-            color: #7f8c8d;
-        }
-        
-        .time-display {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1.5rem;
-            padding: 15px;
-            background: linear-gradient(135deg, #e8f4fd, #d4e6f1);
-            border-radius: 10px;
-            border-left: 4px solid #3498db;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-        }
-        
-        .time-label {
-            font-weight: bold;
-            color: #2c3e50;
-            font-size: 1.1rem;
-        }
-        
-        .utc-time {
-            font-family: 'Courier New', monospace;
+        .usdt-column {
+            text-align: center;
             font-weight: bold;
             color: #e74c3c;
-            background-color: #fff;
-            padding: 8px 15px;
-            border-radius: 8px;
-            border: 1px solid #3498db;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            background: linear-gradient(135deg, #ffeaea, #ffd1d1);
+            padding: 12px;
+            border-radius: 6px;
+            border: 1px solid #e74c3c;
+            width: 20%;
         }
         
-        .info-note {
+        .amount-column {
+            text-align: right;
+            font-family: 'Courier New', monospace;
+            font-weight: bold;
+            color: #2c3e50;
+            width: 35%;
+            padding: 12px;
+            background: #f8f9fa;
+            border-radius: 6px;
+        }
+        
+        .currency-column {
+            font-weight: bold;
+            color: #2c3e50;
+            width: 45%;
+            padding: 12px;
+        }
+        
+        .currency-symbol {
+            color: #7f8c8d;
+            margin-left: 8px;
+            font-weight: normal;
+        }
+        
+        .rate-info {
+            color: #27ae60;
+            font-size: 0.85rem;
+            margin-top: 5px;
+            font-style: italic;
+        }
+        
+        .note {
             margin-top: 1.5rem;
             padding: 15px;
             background: linear-gradient(135deg, #e8f4fd, #d4e6f1);
             border-left: 4px solid #3498db;
             border-radius: 8px;
             font-size: 0.9rem;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
         }
         
-        footer {
-            background-color: rgba(44, 62, 80, 0.95);
+        .contact {
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 2px solid #3498db;
+        }
+        
+        .contact h3 {
+            color: #2c3e50;
+            margin-bottom: 1rem;
+        }
+        
+        .footer {
+            background: #2c3e50;
             color: white;
             text-align: center;
-            padding: 1.5rem 0;
+            padding: 1.5rem;
             margin-top: 2rem;
-            backdrop-filter: blur(10px);
         }
         
         @media (max-width: 768px) {
-            .nav-links {
-                flex-direction: column;
-                position: absolute;
-                top: 70px;
-                left: 0;
-                width: 100%;
-                background-color: rgba(44, 62, 80, 0.98);
-                display: none;
-                z-index: 1000;
+            .container {
+                margin: 10px;
             }
             
-            .nav-links.active {
-                display: flex;
+            .header {
+                padding: 1.5rem;
             }
             
-            .nav-links li {
-                margin: 0;
-                text-align: center;
-                padding: 1rem;
-                border-top: 1px solid rgba(255,255,255,0.1);
+            .header h1 {
+                font-size: 1.8rem;
             }
             
-            .menu-toggle {
-                display: block;
-                cursor: pointer;
-                font-size: 1.5rem;
-            }
-            
-            .hero h1 {
-                font-size: 2rem;
-            }
-            
-            .currency-table {
-                display: block;
-                overflow-x: auto;
+            .content {
+                padding: 1.5rem;
             }
             
             .time-display {
@@ -305,54 +254,28 @@
                 width: 100%;
             }
             
-            .container {
-                width: 95%;
+            .currency-table {
+                display: block;
+                overflow-x: auto;
             }
-        }
-        
-        .menu-toggle {
-            display: none;
-            color: white;
-            font-size: 1.5rem;
-        }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        .content-section {
-            animation: fadeIn 0.8s ease-out;
-        }
-        
-        .hero {
-            animation: fadeIn 0.6s ease-out;
+            
+            .usdt-column,
+            .amount-column,
+            .currency-column {
+                white-space: nowrap;
+            }
         }
     </style>
 </head>
 <body>
-    <header>
-        <div class="container">
-            <nav>
-                <div class="logo">USDT Converter</div>
-                <div class="menu-toggle">☰</div>
-                <ul class="nav-links">
-                    <li><a href="#home">Home</a></li>
-                    <li><a href="#services">Converter</a></li>
-                    <li><a href="#contact">Contact</a></li>
-                </ul>
-            </nav>
-        </div>
-    </header>
-
-    <main class="container">
-        <section id="home" class="hero">
+    <div class="container">
+        <div class="header">
             <h1>USDT Currency Converter</h1>
             <p>Convert USDT to various currencies in real-time</p>
-        </section>
+        </div>
         
-        <section id="services" class="content-section">
-            <h2>Currency Conversion Table</h2>
+        <div class="content">
+            <h2 class="section-title">Currency Conversion Table</h2>
             <p>Enter USDT amount to convert to various currencies</p>
             
             <div class="time-display">
@@ -370,68 +293,96 @@
             <table class="currency-table">
                 <thead>
                     <tr>
-                        <th>Currency</th>
+                        <th>USDT</th>
                         <th>Amount</th>
-                        <th>Symbol</th>
+                        <th>Currency</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td class="currency-code">Philippine Peso (PHP)</td>
-                        <td class="currency-amount" id="php-amount">0.00</td>
-                        <td class="currency-symbol">₱</td>
+                        <td class="usdt-column">1.00</td>
+                        <td class="amount-column" id="php-amount">61.12</td>
+                        <td class="currency-column">
+                            Philippine Peso <span class="currency-symbol">(PHP)</span>
+                            <div class="rate-info">Rate: 61.12 PHP per USDT</div>
+                        </td>
                     </tr>
                     <tr>
-                        <td class="currency-code">Thai Baht (THB)</td>
-                        <td class="currency-amount" id="thb-amount">0.00</td>
-                        <td class="currency-symbol">฿</td>
+                        <td class="usdt-column">1.00</td>
+                        <td class="amount-column" id="thb-amount">39.28</td>
+                        <td class="currency-column">
+                            Thai Baht <span class="currency-symbol">(THB)</span>
+                            <div class="rate-info">Rate: 39.28 THB per USDT</div>
+                        </td>
                     </tr>
                     <tr>
-                        <td class="currency-code">Vietnamese Dong (VND)</td>
-                        <td class="currency-amount" id="vnd-amount">0.00</td>
-                        <td class="currency-symbol">₫</td>
+                        <td class="usdt-column">1.00</td>
+                        <td class="amount-column" id="vnd-amount">28,571.42</td>
+                        <td class="currency-column">
+                            Vietnamese Dong <span class="currency-symbol">(VND)</span>
+                            <div class="rate-info">Rate: 28,571.42 VND per USDT</div>
+                        </td>
                     </tr>
                     <tr>
-                        <td class="currency-code">Malaysian Ringgit (MYR)</td>
-                        <td class="currency-amount" id="myr-amount">0.00</td>
-                        <td class="currency-symbol">RM</td>
+                        <td class="usdt-column">1.00</td>
+                        <td class="amount-column" id="myr-amount">5.19</td>
+                        <td class="currency-column">
+                            Malaysian Ringgit <span class="currency-symbol">(MYR)</span>
+                            <div class="rate-info">Rate: 5.19 MYR per USDT</div>
+                        </td>
                     </tr>
                     <tr>
-                        <td class="currency-code">Indonesian Rupiah (IDR)</td>
-                        <td class="currency-amount" id="idr-amount">0.00</td>
-                        <td class="currency-symbol">Rp</td>
+                        <td class="usdt-column">1.00</td>
+                        <td class="amount-column" id="idr-amount">17,031.25</td>
+                        <td class="currency-column">
+                            Indonesian Rupiah <span class="currency-symbol">(IDR)</span>
+                            <div class="rate-info">Rate: 17,031.25 IDR per USDT</div>
+                        </td>
                     </tr>
                 </tbody>
             </table>
             
-            <div class="info-note">
+            <div class="note">
                 <p><strong>Note:</strong> Exchange rates may change at any time. Please refer to the latest exchange rate during actual transactions.</p>
             </div>
-        </section>
-        
-        <section id="contact" class="content-section">
-            <h2>Contact Us</h2>
-            <p>If you have any questions or need help, please feel free to contact us</p>
-            <p>TG: @FindJunS</p>
-        </section>
-    </main>
-
-    <footer>
-        <div class="container">
-            <p>&copy; 2023 USDT Converter. All rights reserved.</p>
+            
+            <div class="contact">
+                <h3>Contact Us</h3>
+                <p>If you have any questions or need help, please feel free to contact us</p>
+                <p>TG: @FindJunS</p>
+            </div>
         </div>
-    </footer>
+        
+        <div class="footer">
+            <p>&copy; USDT Converter. </p>
+        </div>
+    </div>
 
     <script>
-        // 汇率数据（基于USDT的汇率）
-        const exchangeRates = {
-            'PHP': 55.56,  // 1 USDT = 55.56 PHP
-            'THB': 35.71,  // 1 USDT = 35.71 THB
+        // 基础汇率数据（基于USDT的汇率）
+        const baseExchangeRates = {
+            'PHP': 55.56,   // 1 USDT = 55.56 PHP
+            'THB': 35.71,   // 1 USDT = 35.71 THB
             'VND': 23809.52, // 1 USDT = 23,809.52 VND
-            'MYR': 4.76,   // 1 USDT = 4.76 MYR
-            'IDR': 15625   // 1 USDT = 15,625 IDR
+            'MYR': 4.76,    // 1 USDT = 4.76 MYR
+            'IDR': 15625    // 1 USDT = 15,625 IDR
         };
-        
+
+        // 倍率调整系数
+        const multipliers = {
+            'PHP': 1.10,    // 菲律宾 +10%
+            'THB': 1.10,    // 泰国 +10%
+            'VND': 1.20,    // 越南 +20%
+            'MYR': 1.09,    // 马来西亚 +9%
+            'IDR': 1.09     // 印尼 +9%
+        };
+
+        // 计算调整后的汇率
+        const adjustedExchangeRates = {};
+        for (const currency in baseExchangeRates) {
+            adjustedExchangeRates[currency] = baseExchangeRates[currency] * multipliers[currency];
+        }
+
         // 更新UTC时间
         function updateUTCTime() {
             const now = new Date();
@@ -443,7 +394,7 @@
         function calculateConversion(usdtAmount, currency) {
             if (!usdtAmount || usdtAmount <= 0) return 0;
             
-            const rate = exchangeRates[currency];
+            const rate = adjustedExchangeRates[currency];
             if (!rate) return 0;
             
             // 根据不同货币格式化显示
@@ -464,6 +415,12 @@
         function updateAllConversions() {
             const usdtAmount = parseFloat(document.getElementById('usdt-input').value) || 0;
             
+            // 更新USDT列
+            document.querySelectorAll('.usdt-column').forEach(cell => {
+                cell.textContent = usdtAmount.toFixed(2);
+            });
+            
+            // 更新各货币金额
             document.getElementById('php-amount').textContent = calculateConversion(usdtAmount, 'PHP');
             document.getElementById('thb-amount').textContent = calculateConversion(usdtAmount, 'THB');
             document.getElementById('vnd-amount').textContent = calculateConversion(usdtAmount, 'VND');
@@ -481,37 +438,6 @@
             
             // 为USDT输入框添加事件监听
             document.getElementById('usdt-input').addEventListener('input', updateAllConversions);
-            
-            // 移动端菜单切换
-            const menuToggle = document.querySelector('.menu-toggle');
-            const navLinks = document.querySelector('.nav-links');
-            
-            if (menuToggle) {
-                menuToggle.addEventListener('click', function() {
-                    navLinks.classList.toggle('active');
-                });
-            }
-            
-            // 平滑滚动
-            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-                anchor.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    
-                    const targetId = this.getAttribute('href');
-                    const targetElement = document.querySelector(targetId);
-                    
-                    if (targetElement) {
-                        window.scrollTo({
-                            top: targetElement.offsetTop - 70,
-                            behavior: 'smooth'
-                        });
-                        
-                        if (window.innerWidth <= 768) {
-                            navLinks.classList.remove('active');
-                        }
-                    }
-                });
-            });
         });
     </script>
 </body>
