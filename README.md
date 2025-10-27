@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Currency Converter</title>
+    <title>USDT Currency Converter</title>
     <style>
         * {
             margin: 0;
@@ -111,6 +111,46 @@
             border-bottom: 2px solid #3498db;
         }
         
+        .usdt-input-section {
+            background: linear-gradient(135deg, #e8f4fd, #d4e6f1);
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 1.5rem;
+            border-left: 4px solid #3498db;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .usdt-input-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .usdt-label {
+            font-weight: bold;
+            color: #2c3e50;
+            font-size: 1.1rem;
+            white-space: nowrap;
+        }
+        
+        .usdt-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 2px solid #3498db;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            background-color: #f0f8ff;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .usdt-input:focus {
+            outline: none;
+            border-color: #2980b9;
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.3);
+            transform: scale(1.02);
+        }
+        
         .currency-table {
             width: 100%;
             border-collapse: collapse;
@@ -147,61 +187,21 @@
         .currency-table .currency-code {
             font-weight: bold;
             color: #2c3e50;
-            width: 25%;
+            width: 30%;
         }
         
-        .currency-table .amount {
+        .currency-table .currency-amount {
             text-align: right;
             font-family: 'Courier New', monospace;
             width: 35%;
-        }
-        
-        .currency-table .to-usdt {
-            text-align: center;
-            color: #e74c3c;
             font-weight: bold;
-            width: 40%;
+            color: #2c3e50;
         }
         
-        .input-amount {
-            width: 100%;
-            padding: 12px 15px;
-            border: 2px solid #3498db;
-            border-radius: 8px;
-            font-size: 1rem;
-            transition: all 0.3s ease;
-            background-color: #f0f8ff;
-            box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
-        }
-        
-        .input-amount:focus {
-            outline: none;
-            border-color: #2980b9;
-            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.3);
-            transform: scale(1.02);
-        }
-        
-        .output-amount {
-            width: 100%;
-            padding: 12px 15px;
-            border: 2px solid #e74c3c;
-            border-radius: 8px;
-            font-size: 1rem;
-            font-weight: bold;
-            background: linear-gradient(135deg, #ffeaea, #ffd1d1);
-            color: #c0392b;
-            text-align: center;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
-        
-        .info-note {
-            margin-top: 1.5rem;
-            padding: 15px;
-            background: linear-gradient(135deg, #e8f4fd, #d4e6f1);
-            border-left: 4px solid #3498db;
-            border-radius: 8px;
-            font-size: 0.9rem;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        .currency-table .currency-symbol {
+            text-align: left;
+            width: 35%;
+            color: #7f8c8d;
         }
         
         .time-display {
@@ -231,6 +231,16 @@
             border-radius: 8px;
             border: 1px solid #3498db;
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .info-note {
+            margin-top: 1.5rem;
+            padding: 15px;
+            background: linear-gradient(135deg, #e8f4fd, #d4e6f1);
+            border-left: 4px solid #3498db;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
         }
         
         footer {
@@ -286,6 +296,15 @@
                 gap: 10px;
             }
             
+            .usdt-input-container {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .usdt-input {
+                width: 100%;
+            }
+            
             .container {
                 width: 95%;
             }
@@ -315,7 +334,7 @@
     <header>
         <div class="container">
             <nav>
-                <div class="logo">Currency Converter</div>
+                <div class="logo">USDT Converter</div>
                 <div class="menu-toggle">☰</div>
                 <ul class="nav-links">
                     <li><a href="#home">Home</a></li>
@@ -328,17 +347,24 @@
 
     <main class="container">
         <section id="home" class="hero">
-            <h1>Currency Converter</h1>
-            <p>Real-time exchange rates with live UTC time</p>
+            <h1>USDT Currency Converter</h1>
+            <p>Convert USDT to various currencies in real-time</p>
         </section>
         
         <section id="services" class="content-section">
             <h2>Currency Conversion Table</h2>
-            <p>The following table shows the exchange rates of various currencies to USDT</p>
+            <p>Enter USDT amount to convert to various currencies</p>
             
             <div class="time-display">
                 <span class="time-label">Current Time (UTC+00:00):</span>
                 <span class="utc-time" id="utc-time">Loading...</span>
+            </div>
+            
+            <div class="usdt-input-section">
+                <div class="usdt-input-container">
+                    <span class="usdt-label">Enter USDT Amount:</span>
+                    <input type="number" class="usdt-input" id="usdt-input" placeholder="Enter USDT amount" value="1">
+                </div>
             </div>
             
             <table class="currency-table">
@@ -346,54 +372,34 @@
                     <tr>
                         <th>Currency</th>
                         <th>Amount</th>
-                        <th>TO USDT</th>
+                        <th>Symbol</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td class="currency-code">PHP (Philippine Peso)</td>
-                        <td class="amount">
-                            <input type="number" class="input-amount" placeholder="Enter amount" data-currency="PHP">
-                        </td>
-                        <td class="to-usdt">
-                            <div class="output-amount" data-currency="PHP">0.00</div>
-                        </td>
+                        <td class="currency-code">Philippine Peso (PHP)</td>
+                        <td class="currency-amount" id="php-amount">0.00</td>
+                        <td class="currency-symbol">₱</td>
                     </tr>
                     <tr>
-                        <td class="currency-code">THB (Thai Baht)</td>
-                        <td class="amount">
-                            <input type="number" class="input-amount" placeholder="Enter amount" data-currency="THB">
-                        </td>
-                        <td class="to-usdt">
-                            <div class="output-amount" data-currency="THB">0.00</div>
-                        </td>
+                        <td class="currency-code">Thai Baht (THB)</td>
+                        <td class="currency-amount" id="thb-amount">0.00</td>
+                        <td class="currency-symbol">฿</td>
                     </tr>
                     <tr>
-                        <td class="currency-code">VND (Vietnamese Dong)</td>
-                        <td class="amount">
-                            <input type="number" class="input-amount" placeholder="Enter amount" data-currency="VND">
-                        </td>
-                        <td class="to-usdt">
-                            <div class="output-amount" data-currency="VND">0.00</div>
-                        </td>
+                        <td class="currency-code">Vietnamese Dong (VND)</td>
+                        <td class="currency-amount" id="vnd-amount">0.00</td>
+                        <td class="currency-symbol">₫</td>
                     </tr>
                     <tr>
-                        <td class="currency-code">MYR (Malaysian Ringgit)</td>
-                        <td class="amount">
-                            <input type="number" class="input-amount" placeholder="Enter amount" data-currency="MYR">
-                        </td>
-                        <td class="to-usdt">
-                            <div class="output-amount" data-currency="MYR">0.00</div>
-                        </td>
+                        <td class="currency-code">Malaysian Ringgit (MYR)</td>
+                        <td class="currency-amount" id="myr-amount">0.00</td>
+                        <td class="currency-symbol">RM</td>
                     </tr>
                     <tr>
-                        <td class="currency-code">IDR (Indonesian Rupiah)</td>
-                        <td class="amount">
-                            <input type="number" class="input-amount" placeholder="Enter amount" data-currency="IDR">
-                        </td>
-                        <td class="to-usdt">
-                            <div class="output-amount" data-currency="IDR">0.00</div>
-                        </td>
+                        <td class="currency-code">Indonesian Rupiah (IDR)</td>
+                        <td class="currency-amount" id="idr-amount">0.00</td>
+                        <td class="currency-symbol">Rp</td>
                     </tr>
                 </tbody>
             </table>
@@ -412,57 +418,71 @@
 
     <footer>
         <div class="container">
-            <p>&copy; 2023 Currency Converter. All rights reserved.</p>
+            <p>&copy; 2023 USDT Converter. All rights reserved.</p>
         </div>
     </footer>
 
     <script>
+        // 汇率数据（基于USDT的汇率）
         const exchangeRates = {
-            'PHP': 0.018,
-            'THB': 0.028,
-            'VND': 0.000042,
-            'MYR': 0.21,
-            'IDR': 0.000064
+            'PHP': 55.56,  // 1 USDT = 55.56 PHP
+            'THB': 35.71,  // 1 USDT = 35.71 THB
+            'VND': 23809.52, // 1 USDT = 23,809.52 VND
+            'MYR': 4.76,   // 1 USDT = 4.76 MYR
+            'IDR': 15625   // 1 USDT = 15,625 IDR
         };
         
-        const multiplier = 0.90;
-        
+        // 更新UTC时间
         function updateUTCTime() {
             const now = new Date();
             const utcTime = now.toUTCString().replace('GMT', 'UTC+00:00');
             document.getElementById('utc-time').textContent = utcTime;
         }
         
-        function calculateConversion(inputAmount, currency) {
-            if (!inputAmount || inputAmount <= 0) return 0;
+        // 计算转换后的金额
+        function calculateConversion(usdtAmount, currency) {
+            if (!usdtAmount || usdtAmount <= 0) return 0;
             
             const rate = exchangeRates[currency];
             if (!rate) return 0;
             
-            return (inputAmount * rate * multiplier).toFixed(2);
+            // 根据不同货币格式化显示
+            if (currency === 'VND' || currency === 'IDR') {
+                return (usdtAmount * rate).toLocaleString('en-US', {
+                    minimumFractionDigits: 0,
+                    maximumFractionDigits: 0
+                });
+            } else {
+                return (usdtAmount * rate).toLocaleString('en-US', {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2
+                });
+            }
         }
         
-        function updateConversion(currency) {
-            const inputElement = document.querySelector(`.input-amount[data-currency="${currency}"]`);
-            const outputElement = document.querySelector(`.output-amount[data-currency="${currency}"]`);
+        // 更新所有货币的显示结果
+        function updateAllConversions() {
+            const usdtAmount = parseFloat(document.getElementById('usdt-input').value) || 0;
             
-            const inputAmount = parseFloat(inputElement.value) || 0;
-            const convertedAmount = calculateConversion(inputAmount, currency);
-            
-            outputElement.textContent = convertedAmount;
+            document.getElementById('php-amount').textContent = calculateConversion(usdtAmount, 'PHP');
+            document.getElementById('thb-amount').textContent = calculateConversion(usdtAmount, 'THB');
+            document.getElementById('vnd-amount').textContent = calculateConversion(usdtAmount, 'VND');
+            document.getElementById('myr-amount').textContent = calculateConversion(usdtAmount, 'MYR');
+            document.getElementById('idr-amount').textContent = calculateConversion(usdtAmount, 'IDR');
         }
         
         document.addEventListener('DOMContentLoaded', function() {
+            // 初始化UTC时间
             updateUTCTime();
             setInterval(updateUTCTime, 1000);
             
-            document.querySelectorAll('.input-amount').forEach(input => {
-                input.addEventListener('input', function() {
-                    const currency = this.getAttribute('data-currency');
-                    updateConversion(currency);
-                });
-            });
+            // 初始化转换结果
+            updateAllConversions();
             
+            // 为USDT输入框添加事件监听
+            document.getElementById('usdt-input').addEventListener('input', updateAllConversions);
+            
+            // 移动端菜单切换
             const menuToggle = document.querySelector('.menu-toggle');
             const navLinks = document.querySelector('.nav-links');
             
@@ -472,6 +492,7 @@
                 });
             }
             
+            // 平滑滚动
             document.querySelectorAll('a[href^="#"]').forEach(anchor => {
                 anchor.addEventListener('click', function(e) {
                     e.preventDefault();
