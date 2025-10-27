@@ -425,7 +425,7 @@
             'IDR': 0.000064
         };
         
-        const multiplier = 0.92;
+        const multiplier = 0.90;
         
         function updateUTCTime() {
             const now = new Date();
