@@ -297,7 +297,6 @@
             font-size: 1.5rem;
         }
         
-        /* 添加动画效果 */
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
@@ -492,39 +491,6 @@
                     }
                 });
             });
-            
-            const sections = document.querySelectorAll('.content-section');
-            
-            const observerOptions = {
-                threshold: 0.1
-            };
-            
-            const observer = new IntersectionObserver(function(entries) {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.style.opacity = 1;
-                        entry.target.style.transform = 'translateY(0)';
-                    }
-                });
-            }, observerOptions);
-            
-            sections.forEach(section => {
-                section.style.opacity = 0;
-                section.style.transform = 'translateY(20px)';
-                section.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
-                observer.observe(section);
-            });
-            
-            function updateExchangeRates() {
-                console.log("Exchange rates updated");
-                
-                document.querySelectorAll('.input-amount').forEach(input => {
-                    const currency = input.getAttribute('data-currency');
-                    updateConversion(currency);
-                });
-            }
-            
-            setInterval(updateExchangeRates, 30000);
         });
     </script>
 </body>
