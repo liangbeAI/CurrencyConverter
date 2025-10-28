@@ -148,6 +148,7 @@
             box-shadow: 0 5px 15px rgba(0,0,0,0.1);
             border-radius: 10px;
             overflow: hidden;
+            table-layout: fixed;
         }
         
         .currency-table th {
@@ -161,6 +162,7 @@
         .currency-table td {
             padding: 15px;
             border-bottom: 1px solid #e0e0e0;
+            vertical-align: top;
         }
         
         .currency-table tr:nth-child(even) {
@@ -181,7 +183,7 @@
             padding: 12px;
             border-radius: 6px;
             border: 1px solid #e74c3c;
-            width: 20%;
+            width: 15%;
         }
         
         .amount-column {
@@ -189,7 +191,7 @@
             font-family: 'Courier New', monospace;
             font-weight: bold;
             color: #2c3e50;
-            width: 35%;
+            width: 25%;
             padding: 12px;
             background: #f8f9fa;
             border-radius: 6px;
@@ -198,7 +200,7 @@
         .currency-column {
             font-weight: bold;
             color: #2c3e50;
-            width: 45%;
+            width: 60%;
             padding: 12px;
         }
         
@@ -253,6 +255,11 @@
             margin-top: 2rem;
         }
         
+        /* 修复表格布局 */
+        .currency-table thead th:nth-child(1) { width: 15%; }
+        .currency-table thead th:nth-child(2) { width: 25%; }
+        .currency-table thead th:nth-child(3) { width: 60%; }
+        
         @media (max-width: 768px) {
             .container {
                 margin: 10px;
@@ -294,12 +301,19 @@
             .currency-table {
                 display: block;
                 overflow-x: auto;
+                table-layout: auto;
+            }
+            
+            .currency-table th,
+            .currency-table td {
+                white-space: nowrap;
+                min-width: 100px;
             }
             
             .usdt-column,
             .amount-column,
             .currency-column {
-                white-space: nowrap;
+                white-space: normal;
             }
         }
     </style>
@@ -328,7 +342,7 @@
             <div class="usdt-input-section">
                 <div class="usdt-input-container">
                     <span class="usdt-label">Enter USDT Amount:</span>
-                    <input type="number" class="usdt-input" id="usdt-input" placeholder="Enter USDT amount" value="1">
+                    <input type="number" class="usdt-input" id="usdt-input" placeholder="Enter USDT amount" value="1" min="0" step="0.01">
                 </div>
             </div>
             
@@ -437,13 +451,13 @@
             document.getElementById('utc-time').textContent = utcTime;
         }
 
-        // 获取XE汇率数据（使用免费API）
+        // 获取汇率数据
         async function fetchExchangeRates() {
             try {
                 document.getElementById('rate-status').textContent = 'Updating exchange rates...';
                 document.getElementById('rate-status').style.color = '#3498db';
 
-                // 由于XE.com需要API密钥，我们使用免费的汇率API作为替代
+                // 使用免费的汇率API
                 const response = await fetch('https://api.exchangerate-api.com/v4/latest/USD');
                 
                 if (!response.ok) {
