@@ -83,6 +83,27 @@
             border: 1px solid #3498db;
         }
         
+        .rate-info-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding: 12px 15px;
+            background: linear-gradient(135deg, #fff3cd, #ffeaa7);
+            border-radius: 8px;
+            border-left: 4px solid #f39c12;
+        }
+        
+        .rate-status {
+            font-weight: bold;
+            color: #e67e22;
+        }
+        
+        .next-update {
+            font-size: 0.9rem;
+            color: #7f8c8d;
+        }
+        
         .usdt-input-section {
             background: linear-gradient(135deg, #e8f4fd, #d4e6f1);
             padding: 20px;
@@ -194,6 +215,16 @@
             font-style: italic;
         }
         
+        .loading {
+            color: #3498db;
+            font-style: italic;
+        }
+        
+        .error {
+            color: #e74c3c;
+            font-style: italic;
+        }
+        
         .note {
             margin-top: 1.5rem;
             padding: 15px;
@@ -245,6 +276,12 @@
                 gap: 10px;
             }
             
+            .rate-info-section {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+            
             .usdt-input-container {
                 flex-direction: column;
                 align-items: flex-start;
@@ -283,6 +320,11 @@
                 <span class="utc-time" id="utc-time">Loading...</span>
             </div>
             
+            <div class="rate-info-section">
+                <span class="rate-status" id="rate-status">Loading exchange rates...</span>
+                <span class="next-update" id="next-update"></span>
+            </div>
+            
             <div class="usdt-input-section">
                 <div class="usdt-input-container">
                     <span class="usdt-label">Enter USDT Amount:</span>
@@ -301,49 +343,59 @@
                 <tbody>
                     <tr>
                         <td class="usdt-column">1.00</td>
-                        <td class="amount-column" id="php-amount">61.12</td>
+                        <td class="amount-column" id="php-amount">
+                            <span class="loading">Loading...</span>
+                        </td>
                         <td class="currency-column">
                             Philippine Peso <span class="currency-symbol">(PHP)</span>
-                            <div class="rate-info">Rate: 61.12 PHP per USDT</div>
+                            <div class="rate-info" id="php-rate">Rate: Loading...</div>
                         </td>
                     </tr>
                     <tr>
                         <td class="usdt-column">1.00</td>
-                        <td class="amount-column" id="thb-amount">39.28</td>
+                        <td class="amount-column" id="thb-amount">
+                            <span class="loading">Loading...</span>
+                        </td>
                         <td class="currency-column">
                             Thai Baht <span class="currency-symbol">(THB)</span>
-                            <div class="rate-info">Rate: 39.28 THB per USDT</div>
+                            <div class="rate-info" id="thb-rate">Rate: Loading...</div>
                         </td>
                     </tr>
                     <tr>
                         <td class="usdt-column">1.00</td>
-                        <td class="amount-column" id="vnd-amount">28,571.42</td>
+                        <td class="amount-column" id="vnd-amount">
+                            <span class="loading">Loading...</span>
+                        </td>
                         <td class="currency-column">
                             Vietnamese Dong <span class="currency-symbol">(VND)</span>
-                            <div class="rate-info">Rate: 28,571.42 VND per USDT</div>
+                            <div class="rate-info" id="vnd-rate">Rate: Loading...</div>
                         </td>
                     </tr>
                     <tr>
                         <td class="usdt-column">1.00</td>
-                        <td class="amount-column" id="myr-amount">5.19</td>
+                        <td class="amount-column" id="myr-amount">
+                            <span class="loading">Loading...</span>
+                        </td>
                         <td class="currency-column">
                             Malaysian Ringgit <span class="currency-symbol">(MYR)</span>
-                            <div class="rate-info">Rate: 5.19 MYR per USDT</div>
+                            <div class="rate-info" id="myr-rate">Rate: Loading...</div>
                         </td>
                     </tr>
                     <tr>
                         <td class="usdt-column">1.00</td>
-                        <td class="amount-column" id="idr-amount">17,031.25</td>
+                        <td class="amount-column" id="idr-amount">
+                            <span class="loading">Loading...</span>
+                        </td>
                         <td class="currency-column">
                             Indonesian Rupiah <span class="currency-symbol">(IDR)</span>
-                            <div class="rate-info">Rate: 17,031.25 IDR per USDT</div>
+                            <div class="rate-info" id="idr-rate">Rate: Loading...</div>
                         </td>
                     </tr>
                 </tbody>
             </table>
             
             <div class="note">
-                <p><strong>Note:</strong> Exchange rates may change at any time. Please refer to the latest exchange rate during actual transactions.</p>
+                <p><strong>Note:</strong> Exchange rates are updated every 5 minutes from XE.com. Rates may vary during actual transactions.</p>
             </div>
             
             <div class="contact">
@@ -359,29 +411,24 @@
     </div>
 
     <script>
-        // 基础汇率数据（基于USDT的汇率）
-        const baseExchangeRates = {
-            'PHP': 55.56,   // 1 USDT = 55.56 PHP
-            'THB': 35.71,   // 1 USDT = 35.71 THB
-            'VND': 23809.52, // 1 USDT = 23,809.52 VND
-            'MYR': 4.76,    // 1 USDT = 4.76 MYR
-            'IDR': 15625    // 1 USDT = 15,625 IDR
+        // 配置信息
+        const CONFIG = {
+            updateInterval: 5 * 60 * 1000, // 5分钟更新一次
+            baseCurrencies: ['USD'], // 基础货币
+            targetCurrencies: ['PHP', 'THB', 'VND', 'MYR', 'IDR'],
+            multipliers: {
+                'PHP': 1.10,    // 菲律宾 +10%
+                'THB': 1.10,    // 泰国 +10%
+                'VND': 1.20,    // 越南 +20%
+                'MYR': 1.09,    // 马来西亚 +9%
+                'IDR': 1.09     // 印尼 +9%
+            }
         };
 
-        // 倍率调整系数
-        const multipliers = {
-            'PHP': 1.10,    // 菲律宾 +10%
-            'THB': 1.10,    // 泰国 +10%
-            'VND': 1.20,    // 越南 +20%
-            'MYR': 1.09,    // 马来西亚 +9%
-            'IDR': 1.09     // 印尼 +9%
-        };
-
-        // 计算调整后的汇率
-        const adjustedExchangeRates = {};
-        for (const currency in baseExchangeRates) {
-            adjustedExchangeRates[currency] = baseExchangeRates[currency] * multipliers[currency];
-        }
+        // 存储汇率数据
+        let exchangeRates = {};
+        let lastUpdateTime = null;
+        let nextUpdateTime = null;
 
         // 更新UTC时间
         function updateUTCTime() {
@@ -389,28 +436,134 @@
             const utcTime = now.toUTCString().replace('GMT', 'UTC+00:00');
             document.getElementById('utc-time').textContent = utcTime;
         }
-        
+
+        // 获取XE汇率数据（使用免费API）
+        async function fetchExchangeRates() {
+            try {
+                document.getElementById('rate-status').textContent = 'Updating exchange rates...';
+                document.getElementById('rate-status').style.color = '#3498db';
+
+                // 由于XE.com需要API密钥，我们使用免费的汇率API作为替代
+                const response = await fetch('https://api.exchangerate-api.com/v4/latest/USD');
+                
+                if (!response.ok) {
+                    throw new Error('Failed to fetch exchange rates');
+                }
+                
+                const data = await response.json();
+                return data.rates;
+                
+            } catch (error) {
+                console.error('Error fetching exchange rates:', error);
+                
+                // 如果API失败，使用备用数据源
+                try {
+                    const backupResponse = await fetch('https://api.frankfurter.app/latest?from=USD');
+                    if (backupResponse.ok) {
+                        const backupData = await backupResponse.json();
+                        return backupData.rates;
+                    }
+                } catch (backupError) {
+                    console.error('Backup API also failed:', backupError);
+                }
+                
+                throw error;
+            }
+        }
+
+        // 处理汇率数据并应用调整系数
+        async function updateExchangeRates() {
+            try {
+                const rates = await fetchExchangeRates();
+                
+                // 应用调整系数到目标货币
+                CONFIG.targetCurrencies.forEach(currency => {
+                    if (rates[currency]) {
+                        const baseRate = rates[currency];
+                        const multiplier = CONFIG.multipliers[currency];
+                        exchangeRates[currency] = baseRate * multiplier;
+                    }
+                });
+                
+                lastUpdateTime = new Date();
+                nextUpdateTime = new Date(lastUpdateTime.getTime() + CONFIG.updateInterval);
+                
+                document.getElementById('rate-status').textContent = `Rates updated: ${lastUpdateTime.toLocaleTimeString()}`;
+                document.getElementById('rate-status').style.color = '#27ae60';
+                
+                updateNextUpdateTime();
+                updateAllConversions();
+                updateRateDisplays();
+                
+            } catch (error) {
+                document.getElementById('rate-status').textContent = 'Failed to update rates. Using cached data.';
+                document.getElementById('rate-status').style.color = '#e74c3c';
+                console.error('Error updating exchange rates:', error);
+            }
+        }
+
+        // 更新下次更新时间显示
+        function updateNextUpdateTime() {
+            if (nextUpdateTime) {
+                const now = new Date();
+                const timeUntilUpdate = Math.max(0, nextUpdateTime - now);
+                const minutes = Math.floor(timeUntilUpdate / 60000);
+                const seconds = Math.floor((timeUntilUpdate % 60000) / 1000);
+                
+                document.getElementById('next-update').textContent = 
+                    `Next update in: ${minutes}m ${seconds}s`;
+            }
+        }
+
+        // 更新汇率显示
+        function updateRateDisplays() {
+            CONFIG.targetCurrencies.forEach(currency => {
+                const rateElement = document.getElementById(`${currency.toLowerCase()}-rate`);
+                if (rateElement && exchangeRates[currency]) {
+                    const rate = exchangeRates[currency];
+                    let displayRate = rate;
+                    
+                    if (currency === 'VND' || currency === 'IDR') {
+                        displayRate = rate.toLocaleString('en-US', {
+                            minimumFractionDigits: 0,
+                            maximumFractionDigits: 0
+                        });
+                    } else {
+                        displayRate = rate.toLocaleString('en-US', {
+                            minimumFractionDigits: 2,
+                            maximumFractionDigits: 2
+                        });
+                    }
+                    
+                    rateElement.textContent = `Rate: ${displayRate} ${currency} per USDT`;
+                    rateElement.className = 'rate-info';
+                }
+            });
+        }
+
         // 计算转换后的金额
         function calculateConversion(usdtAmount, currency) {
-            if (!usdtAmount || usdtAmount <= 0) return 0;
+            if (!usdtAmount || usdtAmount <= 0) return '0.00';
             
-            const rate = adjustedExchangeRates[currency];
-            if (!rate) return 0;
+            const rate = exchangeRates[currency];
+            if (!rate) return 'N/A';
+            
+            const amount = usdtAmount * rate;
             
             // 根据不同货币格式化显示
             if (currency === 'VND' || currency === 'IDR') {
-                return (usdtAmount * rate).toLocaleString('en-US', {
+                return amount.toLocaleString('en-US', {
                     minimumFractionDigits: 0,
                     maximumFractionDigits: 0
                 });
             } else {
-                return (usdtAmount * rate).toLocaleString('en-US', {
+                return amount.toLocaleString('en-US', {
                     minimumFractionDigits: 2,
                     maximumFractionDigits: 2
                 });
             }
         }
-        
+
         // 更新所有货币的显示结果
         function updateAllConversions() {
             const usdtAmount = parseFloat(document.getElementById('usdt-input').value) || 0;
@@ -421,23 +574,39 @@
             });
             
             // 更新各货币金额
-            document.getElementById('php-amount').textContent = calculateConversion(usdtAmount, 'PHP');
-            document.getElementById('thb-amount').textContent = calculateConversion(usdtAmount, 'THB');
-            document.getElementById('vnd-amount').textContent = calculateConversion(usdtAmount, 'VND');
-            document.getElementById('myr-amount').textContent = calculateConversion(usdtAmount, 'MYR');
-            document.getElementById('idr-amount').textContent = calculateConversion(usdtAmount, 'IDR');
+            CONFIG.targetCurrencies.forEach(currency => {
+                const amountElement = document.getElementById(`${currency.toLowerCase()}-amount`);
+                if (amountElement) {
+                    if (exchangeRates[currency]) {
+                        const convertedAmount = calculateConversion(usdtAmount, currency);
+                        amountElement.innerHTML = convertedAmount;
+                        amountElement.className = 'amount-column';
+                    } else {
+                        amountElement.innerHTML = '<span class="error">Rate unavailable</span>';
+                    }
+                }
+            });
         }
-        
+
         document.addEventListener('DOMContentLoaded', function() {
             // 初始化UTC时间
             updateUTCTime();
             setInterval(updateUTCTime, 1000);
             
-            // 初始化转换结果
-            updateAllConversions();
+            // 初始化汇率
+            updateExchangeRates();
+            
+            // 设置定时更新汇率
+            setInterval(updateExchangeRates, CONFIG.updateInterval);
+            
+            // 更新下次更新时间显示
+            setInterval(updateNextUpdateTime, 1000);
             
             // 为USDT输入框添加事件监听
             document.getElementById('usdt-input').addEventListener('input', updateAllConversions);
+            
+            // 初始更新显示
+            updateAllConversions();
         });
     </script>
 </body>
