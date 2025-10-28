@@ -83,27 +83,6 @@
             border: 1px solid #3498db;
         }
         
-        .rate-info-section {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1rem;
-            padding: 12px 15px;
-            background: linear-gradient(135deg, #fff3cd, #ffeaa7);
-            border-radius: 8px;
-            border-left: 4px solid #f39c12;
-        }
-        
-        .rate-status {
-            font-weight: bold;
-            color: #e67e22;
-        }
-        
-        .next-update {
-            font-size: 0.9rem;
-            color: #7f8c8d;
-        }
-        
         .usdt-input-section {
             background: linear-gradient(135deg, #e8f4fd, #d4e6f1);
             padding: 20px;
@@ -125,6 +104,13 @@
             white-space: nowrap;
         }
         
+        .usdt-input-wrapper {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
         .usdt-input {
             flex: 1;
             padding: 12px 15px;
@@ -139,6 +125,17 @@
             outline: none;
             border-color: #2980b9;
             box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.3);
+        }
+        
+        .update-timer {
+            font-size: 0.9rem;
+            color: #e67e22;
+            background: #fff3cd;
+            padding: 8px 12px;
+            border-radius: 6px;
+            border: 1px solid #f39c12;
+            white-space: nowrap;
+            font-weight: bold;
         }
         
         .currency-table {
@@ -283,19 +280,25 @@
                 gap: 10px;
             }
             
-            .rate-info-section {
+            .usdt-input-container {
                 flex-direction: column;
                 align-items: flex-start;
                 gap: 10px;
             }
             
-            .usdt-input-container {
+            .usdt-input-wrapper {
+                width: 100%;
                 flex-direction: column;
-                align-items: flex-start;
+                gap: 10px;
             }
             
             .usdt-input {
                 width: 100%;
+            }
+            
+            .update-timer {
+                width: 100%;
+                text-align: center;
             }
             
             .currency-table {
@@ -334,15 +337,13 @@
                 <span class="utc-time" id="utc-time">Loading...</span>
             </div>
             
-            <div class="rate-info-section">
-                <span class="rate-status" id="rate-status">Loading exchange rates...</span>
-                <span class="next-update" id="next-update"></span>
-            </div>
-            
             <div class="usdt-input-section">
                 <div class="usdt-input-container">
                     <span class="usdt-label">Enter USDT Amount:</span>
-                    <input type="number" class="usdt-input" id="usdt-input" placeholder="Enter USDT amount" value="1" min="0" step="0.01">
+                    <div class="usdt-input-wrapper">
+                        <input type="number" class="usdt-input" id="usdt-input" placeholder="Enter USDT amount" value="1" min="0" step="0.01">
+                        <div class="update-timer" id="update-timer">Next update: 5m 0s</div>
+                    </div>
                 </div>
             </div>
             
@@ -454,9 +455,6 @@
         // 获取汇率数据
         async function fetchExchangeRates() {
             try {
-                document.getElementById('rate-status').textContent = 'Updating exchange rates...';
-                document.getElementById('rate-status').style.color = '#3498db';
-
                 // 使用免费的汇率API
                 const response = await fetch('https://api.exchangerate-api.com/v4/latest/USD');
                 
@@ -502,21 +500,16 @@
                 lastUpdateTime = new Date();
                 nextUpdateTime = new Date(lastUpdateTime.getTime() + CONFIG.updateInterval);
                 
-                document.getElementById('rate-status').textContent = `Rates updated: ${lastUpdateTime.toLocaleTimeString()}`;
-                document.getElementById('rate-status').style.color = '#27ae60';
-                
                 updateNextUpdateTime();
                 updateAllConversions();
                 updateRateDisplays();
                 
             } catch (error) {
-                document.getElementById('rate-status').textContent = 'Failed to update rates. Using cached data.';
-                document.getElementById('rate-status').style.color = '#e74c3c';
                 console.error('Error updating exchange rates:', error);
             }
         }
 
-        // 更新下次更新时间显示
+        // 更新倒计时显示
         function updateNextUpdateTime() {
             if (nextUpdateTime) {
                 const now = new Date();
@@ -524,8 +517,8 @@
                 const minutes = Math.floor(timeUntilUpdate / 60000);
                 const seconds = Math.floor((timeUntilUpdate % 60000) / 1000);
                 
-                document.getElementById('next-update').textContent = 
-                    `Next update in: ${minutes}m ${seconds}s`;
+                document.getElementById('update-timer').textContent = 
+                    `Next update: ${minutes}m ${seconds}s`;
             }
         }
 
@@ -613,7 +606,7 @@
             // 设置定时更新汇率
             setInterval(updateExchangeRates, CONFIG.updateInterval);
             
-            // 更新下次更新时间显示
+            // 更新倒计时显示
             setInterval(updateNextUpdateTime, 1000);
             
             // 为USDT输入框添加事件监听
